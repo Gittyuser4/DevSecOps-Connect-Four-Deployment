@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('sonar-token')      // Sonar token
-        IMAGE = "Gittyuser4/devops"              // Docker Image Name
+        IMAGE = "devops"              // Docker Image Name
     }
 
     stages {
