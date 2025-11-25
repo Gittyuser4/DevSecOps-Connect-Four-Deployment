@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('sonar-token')      // Sonar token
-        IMAGE = "ravikumarmanchi/devops"              // Docker Image Name
+        IMAGE = "Gittyuser4/devops"              // Docker Image Name
     }
 
     stages {
@@ -13,7 +13,7 @@ pipeline {
         --------------------------------*/
         stage('Git Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/ravimanchi32/DevSecOps-Connect-Four-Deployment.git'
+                git branch: 'master', url: 'https://github.com/Gittyuser4/DevSecOps-Connect-Four-Deployment.git'
             }
         }
 
