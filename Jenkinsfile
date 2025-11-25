@@ -39,17 +39,20 @@ pipeline {
             }
         }
 
-                /* ------------------------------
-           TRIVY IMAGE SCAN
-        --------------------------------*/
-        stage('Trivy Image Scan') {
+                       stage('Trivy Image Scan') {
             steps {
                 sh '''
                     echo "Running Trivy scan on Docker image: ${IMAGE}:v1.${BUILD_ID}"
-                    trivy image --exit-code 0 HIGH,CRITICAL --ignore-unfixed ${IMAGE}:v1.${BUILD_ID}
+                    docker run --rm \
+                        -v /var/run/docker.sock:/var/run/docker.sock \
+                        aquasec/trivy:latest image \
+                        --exit-code 0 \
+                        --severity HIGH,CRITICAL \
+                        --ignore-unfixed ${IMAGE}:v1.${BUILD_ID}
                 '''
             }
         }
+
 
 
         /* ------------------------------
