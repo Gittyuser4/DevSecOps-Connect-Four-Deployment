@@ -39,23 +39,18 @@ pipeline {
             }
         }
 
-        /* ------------------------------
-           QUALITY GATE
+                /* ------------------------------
+           TRIVY IMAGE SCAN
         --------------------------------*/
-        stage('Quality Gate') {
+        stage('Trivy Image Scan') {
             steps {
-                script {
-                    timeout(time: 5, unit: 'MINUTES') {
-                        echo "Checking SonarQube Quality Gate..."
-                        def qg = waitForQualityGate()
-                        echo "Quality Gate Status: ${qg.status}"
-                        if (qg.status != 'OK') {
-                            error "Pipeline failed: Quality Gate status = ${qg.status}"
-                        }
-                    }
-                }
+                sh '''
+                    echo "Running Trivy scan on Docker image: ${IMAGE}:v1.${BUILD_ID}"
+                    trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed ${IMAGE}:v1.${BUILD_ID}
+                '''
             }
         }
+
 
         /* ------------------------------
            DOCKER BUILD
